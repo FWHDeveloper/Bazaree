@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mcommerce</title>
+
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+
+</head>
+<body>
+
+
+<div class="container">
+
+    <h1 class="text-center" style="font-weight:bold">Application Mcommerce</h1>
+
+    <div class="row">
+
+        <div th:each="expedition : ${expeditions}" class="col-md-4 my-1">
+            <a style="width:10px;height:10px;background-color:#fbe9ff;" th:href="@{|/suivi/${expedition.id}|}"> &Eacute;tat Commande N° <p th:text ="${expedition.idCommande}"></p></a>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" src="webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

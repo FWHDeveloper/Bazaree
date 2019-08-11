@@ -1,5 +1,6 @@
 package com.mproduits.web.controller;
 
+import com.mproduits.configurations.ApplicationPropertiesConfiguration;
 import com.mproduits.dao.ProductDao;
 import com.mproduits.model.Product;
 import com.mproduits.web.exceptions.ProductNotFoundException;
@@ -17,17 +18,24 @@ public class ProductController {
     @Autowired
     ProductDao productDao;
 
+    @Autowired
+    ApplicationPropertiesConfiguration appProperties;
+
     // Affiche la liste de tous les produits disponibles
-    @GetMapping(value = "/Produits")
+
+    @GetMapping(value = "/produits")
     public List<Product> listeDesProduits(){
 
         List<Product> products = productDao.findAll();
 
         if(products.isEmpty()) throw new ProductNotFoundException("Aucun produit n'est disponible à la vente");
 
-        return products;
+        List<Product> listeLimitee = products.subList(0, appProperties.getLimitDeProduits());
+
+        return listeLimitee;
 
     }
+
 
     //Récuperer un produit par son id
     @GetMapping( value = "/Produits/{id}")
@@ -35,9 +43,10 @@ public class ProductController {
 
         Optional<Product> product = productDao.findById(id);
 
-        if(!product.isPresent())  throw new ProductNotFoundException("Le produit correspondant à l'id " + id + " n'existe pas");
+        if(! product.isPresent())  throw new ProductNotFoundException("Le produit correspondant à l'id " + id + " n'existe pas");
 
         return product;
     }
+
 }
 
